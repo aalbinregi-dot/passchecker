@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cyber Security 101 · Password Security Testing Toolkit</title>
+  <meta name="description" content="Comprehensive educational cybersecurity toolkit: Password Strength Checker, Salt to Hash Lab, Dictionary Attack Simulator, Hash Generator & Checker, and Security Knowledge Base.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head><body>
+
+<div class="app-container">
+  <!-- ====================================================================
+       1. SIDEBAR NAVIGATION
+       ==================================================================== -->
+  <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
+    <div class="sidebar-brand">
+      <div class="brand-icon">CY</div>
+      <div class="brand-text">
+        <span class="brand-title">Security Lab</span>
+        <span class="brand-sub">TOOLKIT V2.5</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Overview</div>
+      <a href="#dashboard" class="nav-item active" data-page="page-dashboard">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+
+      <div class="nav-section-title">Testing Tools</div>
+      <a href="#salt-hash" class="nav-item" data-page="page-salt-hash">
+        <span class="nav-icon">🧂</span>
+        <span>Salt to Hash</span>
+        <span class="nav-badge">NEW</span>
+      </a>
+      <a href="#strength-checker" class="nav-item" data-page="page-strength">
+        <span class="nav-icon">🛡️</span>
+        <span>Password Strength</span>
+      </a>
+      <a href="#dict-simulator" class="nav-item" data-page="page-dict-sim">
+        <span class="nav-icon">⚡</span>
+        <span>Dictionary Attack</span>
+      </a>
+      <a href="#hash-generator" class="nav-item" data-page="page-hash-gen">
+        <span class="nav-icon">🔒</span>
+        <span>Hash Generator</span>
+      </a>
+      <a href="#hash-checker" class="nav-item" data-page="page-hash-check">
+        <span class="nav-icon">🔍</span>
+        <span>Hash Checker</span>
+      </a>
+
+      <div class="nav-section-title">Documentation</div>
+      <a href="#security-info" class="nav-item" data-page="page-security-info">
+        <span class="nav-icon">📖</span>
+        <span>Security Guide</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="privacy-badge">
+        <span>🔒</span>
+        <span>100% Client-Side Sandbox</span>
+      </div>
+      <span style="font-size:11px; color:var(--muted-2); text-align:center;">No data leaves this browser.</span>
+    </div>
+  </aside>
+
+  <!-- ====================================================================
+       MAIN APPLICATION VIEWPORT
+       ==================================================================== -->
+  <div class="main-wrapper">
+    <!-- Top Bar -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="menu-toggle-btn" id="btn-toggle-menu" aria-label="Toggle Navigation Menu">☰</button>
+        <div class="breadcrumb">
+          <span>Toolkit</span>
+          <span class="sep">/</span>
+          <strong id="breadcrumb-current-page">Dashboard</strong>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle-btn" id="btn-toggle-theme" type="button" aria-label="Toggle Dark and Light Theme">
+          <span id="theme-toggle-icon">☀️</span>
+          <span id="theme-toggle-text">Light Mode</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Viewport containing the 7 dedicated pages -->
+    <main class="page-viewport">
+
+      <!-- ================================================================
+           PAGE 1: DASHBOARD
+           ================================================================ -->
+      <section class="page-view active" id="page-dashboard" aria-labelledby="dash-head">
+        <div class="page-header">
+          <div class="page-eyebrow">// OVERVIEW &amp; CONTROL CENTER</div>
+          <h1 class="page-title" id="dash-head">Password Security Testing Toolkit</h1>
+          <p class="page-desc">A modular, educational suite for evaluating credential hygiene, testing hashing algorithms, exploring cryptographic salting defenses, and simulating adversary attacks in real time.</p>
+        </div>
+
+        <div class="dash-stats-grid">
+          <div class="dash-stat-card">
+            <span class="dash-stat-lbl">Active Dictionary</span>
+            <span class="dash-stat-val accent" id="dash-stat-dict-count">177 Words</span>
+            <span class="dash-stat-sub">Built-in common wordlist ready</span>
+          </div>
+          <div class="dash-stat-card">
+            <span class="dash-stat-lbl">Supported Algorithms</span>
+            <span class="dash-stat-val">5 Algos</span>
+            <span class="dash-stat-sub">MD5, SHA-1, SHA-256, SHA-512, PBKDF2</span>
+          </div>
+          <div class="dash-stat-card">
+            <span class="dash-stat-lbl">Attack Demo Modes</span>
+            <span class="dash-stat-val strong">4 Modes</span>
+            <span class="dash-stat-sub">Dictionary, Top Weak, Brute Force, Hybrid</span>
+          </div>
+          <div class="dash-stat-card">
+            <span class="dash-stat-lbl">Execution Privacy</span>
+            <span class="dash-stat-val strong">Zero Network</span>
+            <span class="dash-stat-sub">Isolated browser memory only</span>
+          </div>
+        </div>
+
+        <div class="plabel">
+          <span>// Security Testing Modules</span>
+          <span class="tag-note">Select any tool to begin testing</span>
+        </div>
+
+        <div class="dash-tools-grid">
+          <!-- Salt to Hash -->
+          <a href="#salt-hash" class="dash-tool-card" data-route="page-salt-hash">
+            <div class="dash-tool-head">
+              <div class="dash-tool-icon-wrap">🧂</div>
+              <span class="dash-tool-tag featured">NEW MODULE</span>
+            </div>
+            <h3 class="dash-tool-title">Salt to Hash Lab</h3>
+            <p class="dash-tool-desc">Generate cryptographically secure random salts and see a live side-by-side comparison of two users with identical passwords producing distinct hashes.</p>
+            <div class="dash-tool-action">Launch Salt Lab →</div>
+          </a>
+
+          <!-- Password Strength -->
+          <a href="#strength-checker" class="dash-tool-card" data-route="page-strength">
+            <div class="dash-tool-head">
+              <div class="dash-tool-icon-wrap">🛡️</div>
+              <span class="dash-tool-tag core">CORE ANALYZER</span>
+            </div>
+            <h3 class="dash-tool-title">Password Strength Checker</h3>
+            <p class="dash-tool-desc">Evaluate password entropy bits, check against 34 common passwords, inspect identity leak tokens from user names/emails, and view time to crack estimates.</p>
+            <div class="dash-tool-action">Check Password →</div>
+          </a>
+
+          <!-- Dictionary Attack -->
+          <a href="#dict-simulator" class="dash-tool-card" data-route="page-dict-sim">
+            <div class="dash-tool-head">
+              <div class="dash-tool-icon-wrap">⚡</div>
+              <span class="dash-tool-tag attack">ADVERSARY ENGINE</span>
+            </div>
+            <h3 class="dash-tool-title">Dictionary Attack Simulator</h3>
+            <p class="dash-tool-desc">Load custom .txt wordlists, test candidate passwords against MD5/SHA-1/SHA-256 target hashes, and monitor attempts, speed, and real-time terminal logs.</p>
+            <div class="dash-tool-action">Run Attack Demo →</div>
+          </a>
+
+          <!-- Hash Generator -->
+          <a href="#hash-generator" class="dash-tool-card" data-route="page-hash-gen">
+            <div class="dash-tool-head">
+              <div class="dash-tool-icon-wrap">🔒</div>
+              <span class="dash-tool-tag crypto">CRYPTOGRAPHY</span>
+            </div>
+            <h3 class="dash-tool-title">Cryptographic Hash Generator</h3>
+            <p class="dash-tool-desc">Instant real-time multi-hash generation for MD5, SHA-1, SHA-256, and SHA-512 with uppercase/lowercase toggles and clipboard copying.</p>
+            <div class="dash-tool-action">Generate Hashes →</div>
+          </a>
+
+          <!-- Hash Checker -->
+          <a href="#hash-checker" class="dash-tool-card" data-route="page-hash-check">
+            <div class="dash-tool-head">
+              <div class="dash-tool-icon-wrap">🔍</div>
+              <span class="dash-tool-tag crypto">REVERSE LOOKUP</span>
+            </div>
+            <h3 class="dash-tool-title">Hash Format &amp; Pre-Image Checker</h3>
+            <p class="dash-tool-desc">Inspect unknown hash strings, auto-detect format compatibility, evaluate vulnerability status, and perform reverse dictionary lookups.</p>
+            <div class="dash-tool-action">Inspect Hash →</div>
+          </a>
+
+          <!-- Security Guide -->
+          <a href="#security-info" class="dash-tool-card" data-route="page-security-info">
+            <div class="dash-tool-head">
+              <div class="dash-tool-icon-wrap">📖</div>
+              <span class="dash-tool-tag featured">EDUCATION</span>
+            </div>
+            <h3 class="dash-tool-title">Security Knowledge Base</h3>
+            <p class="dash-tool-desc">Detailed guides on hashing vs encryption, salting vs peppering, fast vs slow key derivation functions, and NIST/OWASP storage standards.</p>
+            <div class="dash-tool-action">Read Guide →</div>
+          </a>
+        </div>
+
+        <div class="panel">
+          <div class="plabel">
+            <span>// Session Activity &amp; Audit Log</span>
+            <button class="link" type="button" id="btn-clear-activity">Clear Log</button>
+          </div>
+          <div class="activity-feed" id="activity-feed-list">
+            <div class="activity-item">
+              <div class="activity-title"><span>🚀</span> <span>Toolkit initialized in browser sandbox. All modules ready.</span></div>
+              <span class="activity-time">Just now</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           PAGE 2: PASSWORD STRENGTH CHECKER
+           ================================================================ -->
+      <section class="page-view" id="page-strength" aria-labelledby="strength-head">
+        <div class="page-header">
+          <div class="page-eyebrow">// CREDENTIAL HYGIENE &amp; ENTROPY ANALYSIS</div>
+          <h1 class="page-title" id="strength-head">Password Strength Checker</h1>
+          <p class="page-desc">Evaluate password complexity, detect identity token leakage (names and email handles), enforce policy rules, and calculate real mathematical entropy.</p>
+        </div>
+
+        <div class="strength-grid">
+          <!-- Left: Input & Gauge -->
+          <div class="panel">
+            <div class="plabel"><span>// Input Credential</span><span class="tag-note">Tested locally</span></div>
+
+            <div class="field">
+              <label for="name" class="field-label">Full Name</label>
+              <div class="input-row">
+                <input type="text" id="name" class="input-text" placeholder="e.g. Ravi Patel" autocomplete="name">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="email" class="field-label">Email Address</label>
+              <div class="input-row">
+                <input type="email" id="email" class="input-text" placeholder="e.g. ravi.patel@work.example" autocomplete="email">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="pw" class="field-label">
+                <span>Password</span>
+                <span id="char-count" style="font-family:var(--font-mono)">0 chars</span>
+              </label>
+              <div class="input-row">
+                <input type="password" id="pw" class="input-text" placeholder="Type a password to test..." autocomplete="new-password">
+                <button class="icon-btn" type="button" id="toggle" aria-label="Toggle password visibility">👁️</button>
+              </div>
+            </div>
+
+            <div class="chips">
+              <span class="cap">Presets:</span>
+              <button class="chip" type="button" data-preset="common">Weak: Password123!</button>
+              <button class="chip" type="button" data-preset="name">Leaked: Name@2024</button>
+              <button class="chip" type="button" data-preset="phrase">Strong Passphrase</button>
+            </div>
+
+            <!-- Entropy Gauge -->
+            <div class="gauge" id="gauge">
+              <div class="verdict" aria-live="polite">
+                <span class="word" id="word">Waiting for input</span>
+                <span class="bits" id="bits">0 bits</span>
+              </div>
+              <div class="segs" id="segs">
+                <div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div>
+              </div>
+              <div class="segnames">
+                <span>Critical</span><span>Weak</span><span>Fair</span><span>Strong</span><span>Hardened</span>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn primary grow" type="button" id="gen">🎲 Generate Secure Password</button>
+              <button class="btn" type="button" id="copy">Copy</button>
+              <button class="btn" type="button" id="clear">Clear</button>
+            </div>
+            <div id="hint" style="font-size:12px; color:var(--accent); min-height:1.4em;"></div>
+          </div>
+
+          <!-- Right: Analysis & Crack Times -->
+          <div class="panel">
+            <div class="plabel"><span id="an-h">// Security Analysis</span><span class="tag-note" id="count">0 / 6 Rules</span></div>
+
+            <div id="alert" class="edu-callout warning" style="display:none;" role="alert">
+              <div>⚠️ <strong id="alert-text">Identity leak detected!</strong></div>
+            </div>
+
+            <ul class="rules" id="rules"></ul>
+
+            <div class="plabel" style="margin-top:4px;"><span>// Recommendations</span></div>
+            <ol class="tips" id="tips"></ol>
+
+            <div class="plabel" style="margin-top:4px;">
+              <span>// Time to Crack (Assumed Rates)</span>
+              <span class="tag-note">Keyspace: R<sup>L</sup></span>
+            </div>
+            <div class="attacks-grid" id="attacks"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           PAGE 3: SALT TO HASH LAB (Dedicated Page with Two Users Comparison)
+           ================================================================ -->
+      <section class="page-view" id="page-salt-hash" aria-labelledby="salt-head">
+        <div class="page-header">
+          <div class="page-eyebrow">// CRYPTOGRAPHIC SALTING DEFENSE LAB</div>
+          <h1 class="page-title" id="salt-head">Salt to Hash Demonstration</h1>
+          <p class="page-desc">Explore how cryptographically random salts transform deterministic password hashes, preventing rainbow table attacks and ensuring identical passwords generate unique stored digests.</p>
+        </div>
+
+        <div class="edu-callout info">
+          <div>
+            <strong>Why Salting Matters:</strong> A <em>salt</em> is a random string generated and concatenated with a password prior to hashing. Because the salt is unique for every credential, pre-computed rainbow tables cannot be used. <strong>Crucially:</strong> The salt is stored in plaintext alongside the password hash in the database—it does <em>not</em> need to be secret to protect against rainbow table attacks!
+          </div>
+        </div>
+
+        <!-- Interactive Salt Generator & Hasher -->
+        <div class="salt-interactive-card">
+          <div class="plabel">
+            <span>// Interactive Salted Hash Generator</span>
+            <span class="tag-note">Cryptographically Secure Random Salts</span>
+          </div>
+
+          <div class="salt-controls-row">
+            <!-- Left: Password & Algorithm -->
+            <div class="field">
+              <label for="salt-pw-input" class="field-label">
+                <span>Password Input</span>
+                <button class="link" type="button" id="btn-sync-salt-pw">Sync from Strength Checker</button>
+              </label>
+              <div class="input-row">
+                <input type="password" id="salt-pw-input" class="input-text" value="ExamplePassword123!" placeholder="Enter test password...">
+                <button class="icon-btn" type="button" id="toggle-salt-pw" aria-label="Toggle password visibility">👁️</button>
+              </div>
+
+              <label for="salt-algo-select" class="field-label" style="margin-top:12px;">Hashing Algorithm</label>
+              <select id="salt-algo-select" class="input-text" style="cursor:pointer;">
+                <option value="sha256" selected>SHA-256 (Salted Fast Hash · Educational Demo)</option>
+                <option value="pbkdf2">PBKDF2-HMAC-SHA256 (100,000 Iterations · Secure Standard)</option>
+                <option value="sha1">SHA-1 (Legacy / Deprecated)</option>
+                <option value="md5">MD5 (Legacy / Broken)</option>
+              </select>
+            </div>
+
+            <!-- Right: Salt Controls -->
+            <div class="field">
+              <label for="salt-manual-input" class="field-label">
+                <span>Cryptographic Salt (Hexadecimal)</span>
+                <span id="salt-bit-len" style="font-family:var(--font-mono); color:var(--accent)">128-bit (16 bytes)</span>
+              </label>
+              <input type="text" id="salt-manual-input" class="input-text" placeholder="Hex salt (e.g. 7f9a12b4c3...)">
+              <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+                <button class="btn primary grow" type="button" id="btn-gen-salt">🎲 Generate Random Salt</button>
+                <button class="btn" type="button" id="btn-copy-salt">Copy Salt</button>
+                <button class="btn" type="button" id="btn-reset-salt">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:16px;">
+            <button class="btn primary" type="button" id="btn-compute-salted-hash" style="padding:11px 22px; font-size:14px;">⚡ Generate Salted Hash</button>
+            <span style="font-size:13px; color:var(--muted);">Computes <code>Hash(Salt + Password)</code> locally using secure Web Cryptography.</span>
+          </div>
+
+          <!-- Salted Output Results -->
+          <div class="salted-output-grid">
+            <div class="salted-hash-card">
+              <div class="salted-hash-head">
+                <span style="font:700 13px var(--font-mono); color:var(--fg-strong);">// Unsalted Hash (Vulnerable)</span>
+                <span class="sec-pill broken">NO SALT</span>
+              </div>
+              <div class="salted-hash-val" id="out-unsalted-hash">Calculating...</div>
+              <span style="font-size:12px; color:var(--muted);">Identical across all users sharing this password. Vulnerable to pre-computed lookup tables.</span>
+            </div>
+
+            <div class="salted-hash-card" style="border-color:var(--accent);">
+              <div class="salted-hash-head">
+                <span style="font:700 13px var(--font-mono); color:var(--accent);">// Salted Hash (Protected)</span>
+                <span class="sec-pill strong">SALTED</span>
+              </div>
+              <div class="salted-hash-val" id="out-salted-hash" style="color:var(--accent);">Calculating...</div>
+              <span style="font-size:12px; color:var(--muted);">Unique to this salt. Adversaries must crack each user individually.</span>
+            </div>
+          </div>
+
+          <!-- Stored Database Format Preview -->
+          <div class="field" style="margin-top:6px;">
+            <label class="field-label">Simulated Database Storage Record (Public Salt + Hash)</label>
+            <div class="input-text" style="font-size:13px; user-select:all;" id="out-db-record">
+              $algo=sha256$salt=...$hash=...
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Example: Two Users, Same Password, Different Salts -->
+        <div class="comparison-section">
+          <div class="comparison-head-row">
+            <div>
+              <div class="plabel" style="border:0; padding:0; margin-bottom:4px;"><span>// VISUAL DEMONSTRATION</span></div>
+              <h2 style="margin:0; font:700 18px var(--font-display); color:var(--fg-strong);">Two Users, Same Password, Different Salts</h2>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <span class="comparison-status-pill" id="comparison-status-badge">
+                <span>✓</span> HASHES DIFFER 100%
+              </span>
+              <button class="btn" type="button" id="btn-regen-comparison">🔄 Regenerate Salts</button>
+            </div>
+          </div>
+
+          <p style="margin:0; font-size:13.5px; color:var(--muted); line-height:1.55;">
+            “Both users have the same password, but their unique salts produce different stored hash values. This makes precomputed hash attacks less effective and prevents identical passwords from automatically producing identical stored values when unique salts are used.”
+          </p>
+
+          <div class="two-users-grid">
+            <!-- User A -->
+            <div class="user-card user-a">
+              <div class="user-badge">
+                <span>👤</span>
+                <span>User A (Alice)</span>
+              </div>
+
+              <div class="flow-step">
+                <span class="flow-step-lbl">1. Password Input</span>
+                <div class="flow-step-box">ExamplePassword123!</div>
+              </div>
+
+              <div class="flow-arrow">+</div>
+
+              <div class="flow-step">
+                <span class="flow-step-lbl">2. Random Salt A</span>
+                <div class="flow-step-box" id="comp-salt-a" style="color:var(--fair);">Generating...</div>
+              </div>
+
+              <div class="flow-arrow">↓ Hash Function</div>
+
+              <div class="flow-step">
+                <span class="flow-step-lbl">3. Stored Salted Hash A</span>
+                <div class="flow-step-box" id="comp-hash-a" style="color:var(--accent); font-weight:600;">Generating...</div>
+              </div>
+            </div>
+
+            <!-- User B -->
+            <div class="user-card user-b">
+              <div class="user-badge">
+                <span>👤</span>
+                <span>User B (Bob)</span>
+              </div>
+
+              <div class="flow-step">
+                <span class="flow-step-lbl">1. Password Input</span>
+                <div class="flow-step-box">ExamplePassword123!</div>
+              </div>
+
+              <div class="flow-arrow">+</div>
+
+              <div class="flow-step">
+                <span class="flow-step-lbl">2. Random Salt B</span>
+                <div class="flow-step-box" id="comp-salt-b" style="color:var(--fair);">Generating...</div>
+              </div>
+
+              <div class="flow-arrow">↓ Hash Function</div>
+
+              <div class="flow-step">
+                <span class="flow-step-lbl">3. Stored Salted Hash B</span>
+                <div class="flow-step-box" id="comp-hash-b" style="color:var(--fair); font-weight:600;">Generating...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Flow Summary -->
+          <div class="panel" style="padding:16px; background:var(--panel-2);">
+            <div style="font:600 12px var(--font-mono); color:var(--muted); margin-bottom:8px;">// Mathematical Verification Flow:</div>
+            <div style="display:flex; flex-direction:column; gap:4px; font:500 13px var(--font-mono); color:var(--fg);">
+              <div>User A: <span style="color:var(--muted);">Password</span> + <span style="color:var(--fair);" id="flow-salt-a-preview">Salt A</span> → <strong style="color:var(--accent);" id="flow-hash-a-preview">Hash A</strong></div>
+              <div>User B: <span style="color:var(--muted);">Password</span> + <span style="color:var(--fair);" id="flow-salt-b-preview">Salt B</span> → <strong style="color:var(--fair);" id="flow-hash-b-preview">Hash B</strong></div>
+            </div>
+            <div style="margin-top:10px; font-size:12.5px; color:var(--strong);">
+              ✓ Verification: <code>Hash A !== Hash B</code>. An attacker who steals the database cannot deduce that Alice and Bob chose identical passwords.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           PAGE 4: DICTIONARY ATTACK SIMULATOR
+           ================================================================ -->
+      <section class="page-view" id="page-dict-sim" aria-labelledby="dict-head">
+        <div class="page-header">
+          <div class="page-eyebrow">// ADVERSARY SIMULATION SANDBOX</div>
+          <h1 class="page-title" id="dict-head">Dictionary Attack Simulator</h1>
+          <p class="page-desc">Simulate an attacker testing candidate passwords one by one against a test password or hash. Load custom wordlists, monitor live attempt rates, and observe real-world brute-force mathematics.</p>
+        </div>
+
+        <div class="dict-panel-content">
+          <!-- Mode Tabs -->
+          <div class="mode-tabs" role="tablist">
+            <button class="mode-tab active" data-mode="dictionary" type="button">Dictionary Attack</button>
+            <button class="mode-tab" data-mode="common" type="button">Top Weak Passwords</button>
+            <button class="mode-tab" data-mode="bruteforce" type="button">Pure Brute Force</button>
+            <button class="mode-tab" data-mode="hybrid" type="button">Hybrid (Word + Suffix)</button>
+          </div>
+
+          <div class="edu-callout info" id="dict-mode-callout">
+            <div><strong id="dict-mode-title">Dictionary Attack:</strong> <span id="dict-mode-desc">Tests candidates sequentially from the loaded wordlist against target plaintext or hash.</span></div>
+          </div>
+
+          <!-- Config Grid -->
+          <div class="dict-config-grid" id="dict-config-grid">
+            <!-- Wordlist -->
+            <div class="dict-card">
+              <div class="plabel">
+                <span>// Wordlist Dictionary</span>
+                <span class="tag-note" id="dict-cand-count">177 LOADED</span>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <input type="file" id="file-dict-upload" accept=".txt,text/plain" style="display:none">
+                <button class="btn" type="button" id="btn-trigger-upload">📁 Load .txt Dictionary</button>
+                <button class="btn" type="button" id="btn-use-builtin">🔄 Use Built-in List</button>
+              </div>
+              <div style="font-size:12.5px; color:var(--muted); display:flex; justify-content:space-between;">
+                <span>Source: <strong id="dict-source-label" style="color:var(--fg)">Built-in Wordlist</strong></span>
+                <span id="dict-upload-status" style="color:var(--accent)">177 candidates ready</span>
+              </div>
+            </div>
+
+            <!-- Target Credential -->
+            <div class="dict-card">
+              <div class="plabel">
+                <span>// Target Credential</span>
+                <span class="tag-note">Plaintext or Hash</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <select id="sim-target-algo" class="input-text" style="width:130px;">
+                  <option value="plaintext">Plaintext</option>
+                  <option value="sha256" selected>SHA-256</option>
+                  <option value="sha1">SHA-1</option>
+                  <option value="md5">MD5</option>
+                </select>
+                <input type="text" id="sim-target-val" class="input-text grow" value="Ravi@2024" placeholder="Target to crack...">
+              </div>
+              <div style="display:flex; gap:12px;">
+                <button class="link" type="button" id="btn-sim-sync-pw">⚡ Copy from Password Box</button>
+                <button class="link" type="button" id="btn-sim-hash-pw">🔒 Hash Typed Password</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls Bar -->
+          <div class="panel" style="padding:16px;">
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <button class="btn primary grow" type="button" id="btn-sim-start">⚡ Start Attack Simulation</button>
+              <button class="btn" type="button" id="btn-sim-pause" disabled>Pause</button>
+              <button class="btn" type="button" id="btn-sim-stop" disabled>Stop</button>
+              <button class="btn" type="button" id="btn-sim-reset" disabled>Reset</button>
+            </div>
+          </div>
+
+          <!-- Current Guess Readout -->
+          <div class="current-guess-banner">
+            <div style="display:flex; justify-content:space-between; font:600 11px var(--font-mono); color:var(--muted);">
+              <span>// CURRENT GUESS EVALUATED</span>
+              <span id="sim-algo-tag" style="color:var(--accent)">SHA-256 HASH MATCH</span>
+            </div>
+            <div class="guess-candidate" id="sim-disp-guess">"Waiting for simulation to start..."</div>
+            <div class="guess-hash-display" id="sim-disp-hash"></div>
+          </div>
+
+          <!-- Dashboard & Live Terminal -->
+          <div class="sim-dashboard-grid">
+            <!-- Left: Terminal -->
+            <div class="term-container">
+              <div class="term-header">
+                <span>// TERMINAL LOG</span>
+                <span id="term-badge" style="color:var(--accent);">REAL COMPUTE</span>
+              </div>
+              <div class="term-body" id="sim-term-log">
+                <div class="term-line info">[INIT] Attack simulation sandbox loaded.</div>
+                <div class="term-line info">[TARGET] Ready to test candidate wordlist against target.</div>
+                <div class="term-line try">Click "Start Attack Simulation" to begin live evaluation...</div>
+              </div>
+            </div>
+
+            <!-- Right: Telemetry Cards & Progress -->
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div class="telemetry-grid">
+                <div class="stat-card">
+                  <span class="stat-lbl">Attempts</span>
+                  <span class="stat-val" id="stat-attempts">0</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-lbl">Total Candidates</span>
+                  <span class="stat-val" id="stat-total">177</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-lbl">Attempt Speed</span>
+                  <span class="stat-val" id="stat-speed">0/s</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-lbl">Elapsed Time</span>
+                  <span class="stat-val" id="stat-elapsed">0.00s</span>
+                </div>
+              </div>
+
+              <!-- Progress Card -->
+              <div class="panel" style="padding:14px; gap:8px;">
+                <div style="display:flex; justify-content:space-between; font:600 11px var(--font-mono); color:var(--muted);">
+                  <span>Simulation Progress</span>
+                  <span id="sim-pct-label" style="color:var(--fg-strong);">0.0%</span>
+                </div>
+                <div class="prog-track">
+                  <div class="prog-fill" id="sim-prog-fill"></div>
+                </div>
+              </div>
+
+              <!-- Result Banner -->
+              <div class="result-banner" id="sim-result-banner" data-state="idle">
+                <div style="display:flex; justify-content:space-between; align-items:baseline;">
+                  <span class="res-title" id="sim-res-title">Ready</span>
+                  <span id="sim-res-meta" style="font:500 11.5px var(--font-mono); color:var(--muted)">Idle</span>
+                </div>
+                <div id="sim-res-reveal" style="font:700 15px var(--font-mono); display:none;"></div>
+                <div id="sim-res-desc" style="font-size:13px; color:var(--muted); line-height:1.5;">Configure target and dictionary, then start the attack.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           PAGE 5: HASH GENERATOR
+           ================================================================ -->
+      <section class="page-view" id="page-hash-gen" aria-labelledby="hashgen-head">
+        <div class="page-header">
+          <div class="page-eyebrow">// CRYPTOGRAPHIC DIGEST ENGINE</div>
+          <h1 class="page-title" id="hashgen-head">Cryptographic Hash Generator</h1>
+          <p class="page-desc">Generate fixed-length cryptographic hash digests in real time. Compare legacy broken algorithms (MD5, SHA-1) against modern standards (SHA-256, SHA-512) and experiment with salting.</p>
+        </div>
+
+        <div class="panel">
+          <div class="plabel">
+            <span>// Input Plaintext</span>
+            <div style="display:flex; gap:12px;">
+              <button class="link" type="button" id="btn-hashgen-sync">⚡ Copy from Password Box</button>
+              <button class="link" type="button" id="btn-hashgen-toggle-case">Aa Case: Lower</button>
+            </div>
+          </div>
+
+          <textarea id="hashgen-input" class="input-textarea" rows="2" placeholder="Type text or password to hash...">Ravi@2024</textarea>
+
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <label for="hashgen-salt" style="font:600 12px var(--font-mono); color:var(--muted)">Optional Salt:</label>
+            <input type="text" id="hashgen-salt" class="input-text" style="flex:1; min-width:180px;" placeholder="Optional salt prefix...">
+            <button class="btn" type="button" id="btn-hashgen-rand-salt">🎲 Random Salt</button>
+            <button class="btn" type="button" id="btn-hashgen-clear-salt">Clear</button>
+          </div>
+        </div>
+
+        <div class="plabel">
+          <span>// Generated Cryptographic Hashes</span>
+          <span class="tag-note">Computed instantaneously in browser</span>
+        </div>
+
+        <div class="hash-gen-grid">
+          <!-- MD5 -->
+          <div class="hash-card-row">
+            <div class="hash-card-row-head">
+              <span class="algo-badge">MD5 · 128-bit <span class="sec-pill broken">BROKEN</span></span>
+              <span class="tag-note">32 hex characters</span>
+            </div>
+            <div class="hash-output-box">
+              <span class="hash-output-text" id="gen-out-md5">Calculating...</span>
+              <button class="btn btn-copy-hash" type="button" data-src="gen-out-md5">Copy</button>
+              <button class="btn btn-send-to-check" type="button" data-src="gen-out-md5">Inspect in Checker →</button>
+            </div>
+          </div>
+
+          <!-- SHA-1 -->
+          <div class="hash-card-row">
+            <div class="hash-card-row-head">
+              <span class="algo-badge">SHA-1 · 160-bit <span class="sec-pill weak">DEPRECATED</span></span>
+              <span class="tag-note">40 hex characters</span>
+            </div>
+            <div class="hash-output-box">
+              <span class="hash-output-text" id="gen-out-sha1">Calculating...</span>
+              <button class="btn btn-copy-hash" type="button" data-src="gen-out-sha1">Copy</button>
+              <button class="btn btn-send-to-check" type="button" data-src="gen-out-sha1">Inspect in Checker →</button>
+            </div>
+          </div>
+
+          <!-- SHA-256 -->
+          <div class="hash-card-row">
+            <div class="hash-card-row-head">
+              <span class="algo-badge">SHA-256 · 256-bit <span class="sec-pill strong">SECURE STANDARD</span></span>
+              <span class="tag-note">64 hex characters</span>
+            </div>
+            <div class="hash-output-box">
+              <span class="hash-output-text" id="gen-out-sha256">Calculating...</span>
+              <button class="btn btn-copy-hash" type="button" data-src="gen-out-sha256">Copy</button>
+              <button class="btn btn-send-to-check" type="button" data-src="gen-out-sha256">Inspect in Checker →</button>
+            </div>
+          </div>
+
+          <!-- SHA-512 -->
+          <div class="hash-card-row">
+            <div class="hash-card-row-head">
+              <span class="algo-badge">SHA-512 · 512-bit <span class="sec-pill hardened">HIGH SECURITY</span></span>
+              <span class="tag-note">128 hex characters</span>
+            </div>
+            <div class="hash-output-box">
+              <span class="hash-output-text" id="gen-out-sha512">Calculating...</span>
+              <button class="btn btn-copy-hash" type="button" data-src="gen-out-sha512">Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           PAGE 6: HASH CHECKER & REVERSE LOOKUP
+           ================================================================ -->
+      <section class="page-view" id="page-hash-check" aria-labelledby="hashcheck-head">
+        <div class="page-header">
+          <div class="page-eyebrow">// HASH INSPECTION &amp; PRE-IMAGE LOOKUP</div>
+          <h1 class="page-title" id="hashcheck-head">Hash Format &amp; Pre-Image Checker</h1>
+          <p class="page-desc">Enter any unknown cryptographic hash to inspect its format, detect compatible algorithms, evaluate cryptographic strength, and test against local dictionary pre-image tables.</p>
+        </div>
+
+        <div class="panel">
+          <div class="plabel">
+            <span>// Input Hash String</span>
+            <span class="tag-note" id="hashcheck-detect-badge" style="color:var(--accent); font-weight:600;">Detecting format...</span>
+          </div>
+
+          <textarea id="hashcheck-input" class="input-textarea" rows="2" placeholder="Paste an MD5 (32 hex), SHA-1 (40 hex), or SHA-256 (64 hex) hash here...">5f4dcc3b5aa765d61d8327deb882cf99</textarea>
+
+          <div class="chips">
+            <span class="cap">Sample Hashes:</span>
+            <button class="chip" type="button" data-sample="5f4dcc3b5aa765d61d8327deb882cf99">MD5: "password"</button>
+            <button class="chip" type="button" data-sample="21232f297a57a5a743894a0e4a801fc3">MD5: "admin"</button>
+            <button class="chip" type="button" data-sample="e5e9fa1ba31ecd1ae84f75caaa474f3a663f05f4">SHA-1: "secret"</button>
+            <button class="chip" type="button" data-sample="8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92">SHA-256: "123456"</button>
+            <button class="chip" type="button" id="btn-hashcheck-use-current">Hash of Current Password</button>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:6px; flex-wrap:wrap;">
+            <button class="btn primary grow" type="button" id="btn-do-hashcheck">🔍 Check &amp; Reverse Hash</button>
+            <button class="btn" type="button" id="btn-send-to-simulator">⚡ Send to Attack Simulator</button>
+          </div>
+        </div>
+
+        <!-- Inspection Result Card -->
+        <div class="panel" id="hashcheck-result-card" style="display:none;">
+          <div class="plabel">
+            <span>// Hash Inspection &amp; Pre-Image Recovery</span>
+            <span class="tag-note" id="hashcheck-res-meta">0.0 ms</span>
+          </div>
+
+          <div id="hashcheck-res-status" style="font:700 17px var(--font-display); color:var(--fg-strong);">Result</div>
+          <div id="hashcheck-res-reveal" style="font:700 18px var(--font-mono); color:var(--strong); word-break:break-all;"></div>
+          <div id="hashcheck-res-desc" style="font-size:13.5px; color:var(--muted); line-height:1.55;"></div>
+
+          <div id="hashcheck-bridge-box" style="margin-top:10px; display:none;">
+            <button class="btn primary" type="button" id="btn-launch-sim-bridge">⚡ Launch Attack Simulator Against This Hash</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           PAGE 7: SECURITY INFORMATION & BEST PRACTICES
+           ================================================================ -->
+      <section class="page-view" id="page-security-info" aria-labelledby="sec-head">
+        <div class="page-header">
+          <div class="page-eyebrow">// EDUCATIONAL REFERENCE &amp; BEST PRACTICES</div>
+          <h1 class="page-title" id="sec-head">Password Security Knowledge Base</h1>
+          <p class="page-desc">Comprehensive reference on cryptographic hashing, salting defenses, key derivation functions, and industry-standard password storage guidelines (OWASP, NIST SP 800-63B).</p>
+        </div>
+
+        <div class="sec-info-grid">
+          <!-- 1. Hashing vs Encryption vs Encoding -->
+          <div class="panel">
+            <div class="plabel"><span>// Core Cryptographic Distinctions</span></div>
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th>Concept</th>
+                  <th>Direction</th>
+                  <th>Key Required?</th>
+                  <th>Primary Purpose</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong style="color:var(--accent)">Hashing</strong></td>
+                  <td>One-way ($H(m) 	o h$)</td>
+                  <td>No key (Deterministic)</td>
+                  <td>Integrity check, password verification</td>
+                  <td>SHA-256, SHA-512</td>
+                </tr>
+                <tr>
+                  <td><strong style="color:var(--fair)">Encryption</strong></td>
+                  <td>Two-way ($E_k(m) leftrightarrow D_k(c)$)</td>
+                  <td>Yes (Secret key)</td>
+                  <td>Confidentiality of transmitted/stored data</td>
+                  <td>AES-256-GCM, RSA</td>
+                </tr>
+                <tr>
+                  <td><strong style="color:var(--c-symbol)">Encoding</strong></td>
+                  <td>Two-way (Reversible)</td>
+                  <td>No key (Public scheme)</td>
+                  <td>Safe data transmission across text channels</td>
+                  <td>Base64, URL encoding</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 2. Fast Hashes vs Slow Hashes -->
+          <div class="panel">
+            <div class="plabel"><span>// Fast Hashes vs Password Storage Functions</span></div>
+            <div class="guidelines-grid">
+              <div class="guideline-card" style="border-left:3px solid var(--crit);">
+                <div class="guideline-head">
+                  <span style="color:var(--crit)">⚠️ Fast Hashes (DO NOT USE FOR PASSWORDS)</span>
+                </div>
+                <p style="margin:0; font-size:13px; color:var(--muted); line-height:1.5;">
+                  Algorithms like <strong>MD5</strong>, <strong>SHA-1</strong>, and <strong>SHA-256</strong> were engineered to compute digests on gigabytes of file data in milliseconds. Consequently, consumer GPU clusters can compute <strong>over 100 billion SHA-256 hashes per second</strong>. Storing raw or even salted SHA-256 passwords allows attackers to brute-force billions of combinations in seconds.
+                </p>
+              </div>
+
+              <div class="guideline-card" style="border-left:3px solid var(--strong);">
+                <div class="guideline-head">
+                  <span style="color:var(--strong)">🛡️ Slow KDFs (RECOMMENDED FOR STORAGE)</span>
+                </div>
+                <p style="margin:0; font-size:13px; color:var(--muted); line-height:1.5;">
+                  Dedicated password-storage functions like <strong>Argon2id</strong>, <strong>bcrypt</strong>, <strong>scrypt</strong>, and <strong>PBKDF2</strong> incorporate tunable computational work factors and memory-hardness. By forcing the computation to consume milliseconds of CPU time and megabytes of RAM, attackers are limited to a few thousand guesses per second.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Salting vs Peppering -->
+          <div class="panel">
+            <div class="plabel"><span>// Defenses: Salt vs Pepper</span></div>
+            <div class="guidelines-grid">
+              <div class="guideline-card">
+                <div class="guideline-head"><span>🧂 Cryptographic Salt</span></div>
+                <p style="margin:0; font-size:13px; color:var(--muted); line-height:1.5;">
+                  A unique, cryptographically random value (minimum 16 bytes) generated per user and stored in plaintext in the database next to the hash. Salts prevent pre-computed rainbow table attacks and ensure identical passwords produce distinct hash values.
+                </p>
+              </div>
+              <div class="guideline-card">
+                <div class="guideline-head"><span>🌶️ Cryptographic Pepper</span></div>
+                <p style="margin:0; font-size:13px; color:var(--muted); line-height:1.5;">
+                  A secret key stored separately from the database (e.g. in a hardware security module or environment secret). Even if an adversary dumps the database, they cannot hash candidate passwords without the pepper key.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. OWASP & NIST Guidelines -->
+          <div class="panel">
+            <div class="plabel"><span>// Industry Password Storage Guidelines</span></div>
+            <ul class="tips" style="padding-left:18px; font-size:13.5px; line-height:1.6;">
+              <li><strong>Recommended Algorithm:</strong> Use <strong>Argon2id</strong> (winner of the Password Hashing Competition) with minimum $m=64\text{MB}$, $t=3$ iterations, and $p=4$ parallelism.</li>
+              <li><strong>Fallback Algorithm:</strong> If Argon2id is unsupported by your environment, use <strong>bcrypt</strong> (work factor $\ge 12$) or <strong>scrypt</strong>.</li>
+              <li><strong>Minimum Length:</strong> NIST SP 800-63B recommends allowing passwords up to 64 characters and setting a minimum of at least 8 characters.</li>
+              <li><strong>Breach Blacklisting:</strong> Check new passwords against breach databases (e.g., Have I Been Pwned / top 100,000 weak passwords) rather than enforcing arbitrary periodic rotation.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ====================================================================
+     INTEGRATED SCRIPT: LOGIC, CRYPTOGRAPHY, ROUTING & SIMULATOR
+     ==================================================================== -->
+<script src="app.js"></script>
+
+</body>
+</html>
